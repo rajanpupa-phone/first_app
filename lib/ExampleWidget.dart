@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
+import './Question.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
+// _ in the name makes this app private to this file
+class _MyAppState extends State<MyApp> {
   var questionIndex = 0;
 
   void answerQuestion(){
@@ -33,7 +36,7 @@ class MyAppState extends State<MyApp> {
             ),
             body: Column(
               children: [
-                Text(questions.elementAt( questionIndex )),
+                Question(questions.elementAt( questionIndex )),
                 RaisedButton(
                   child: Text("Answer 1"),
                   onPressed: () => answerQuestion(),
