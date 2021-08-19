@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import './Question.dart';
+import './Quiz.dart';
+import 'Result.dart';
+import 'dto/QuestionDTO.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,43 +15,35 @@ class MyApp extends StatefulWidget {
 
 // _ in the name makes this app private to this file
 class _MyAppState extends State<MyApp> {
-  var questionIndex = 0;
+  var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void answerQuestion(){
+  void _answerQuestion() {
+    this._totalScore += 1;
     setState(() {
-      questionIndex = questionIndex + 1;
+      _questionIndex = _questionIndex + 1;
     });
-      print(questionIndex);
-    }
+  }
+
+  var questions = [
+    QuestionDTO(
+        'What\'s your favorite color?', ['Black', 'Red', 'Green', 'White']),
+    QuestionDTO('What\'s your favorite animal?',
+        ['Dog', 'Cat', 'Rabbit', 'Snake', 'Elephant']),
+    QuestionDTO('Who is your favorite instructor?',
+        ['Rajan', 'Rajan', 'Rajan', 'Rajan']),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      "What's your favorite color?",
-      "What's your favorite animal?",
-      ""
-    ];
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
               title: Text('My first App'),
             ),
-            body: Column(
-              children: [
-                Question(questions.elementAt( questionIndex )),
-                RaisedButton(
-                  child: Text("Answer 1"),
-                  onPressed: () => answerQuestion(),
-                ),
-                RaisedButton(
-                  child: Text("Answer 2"),
-                  onPressed: () => answerQuestion(),
-                ),
-                RaisedButton(
-                  child: Text("Answer 3"),
-                  onPressed: ()=> answerQuestion(),
-                ),
-              ],
-            )));
+            body: _questionIndex < questions.length
+                  ? Quiz(questions, _questionIndex, _answerQuestion)
+                  : Result(this._totalScore)
+        ));
   }
 }
